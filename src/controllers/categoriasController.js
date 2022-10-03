@@ -23,13 +23,13 @@ async function createCategorias(req, res){
     }
 
     try{
-        const categoriaExistente = await connection.query('SELECT * FROM categories WHERE name = $1',[name]);
+        const categoriaExistente = await connection.query('SELECT * FROM categories WHERE name = $1;',[name]);
         
         if(categoriaExistente.rowCount > 0){
             return res.sendStatus(409);
         }
         
-        await connection.query('INSERT INTO "categories" (name) VALUES ($1)',[name]);
+        await connection.query('INSERT INTO "categories" (name) VALUES ($1);',[name]);
 
         res.sendStatus(201);
 

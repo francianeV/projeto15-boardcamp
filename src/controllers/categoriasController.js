@@ -1,5 +1,4 @@
 import connection from '../db/database.js';
-import {categoriaSchema} from '../schemas/categoriasSchema.js';
 
 async function getCategorias(req, res){
     try{
@@ -15,12 +14,6 @@ async function getCategorias(req, res){
 
 async function createCategorias(req, res){
     const {name} = req.body;
-
-    const entradaValida = categoriaSchema.validate({name}, {abortEarly: false});
-
-    if(entradaValida.error){
-        return res.sendStatus(400)
-    }
 
     try{
         const categoriaExistente = await connection.query('SELECT * FROM categories WHERE name = $1;',[name]);

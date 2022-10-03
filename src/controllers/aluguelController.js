@@ -1,14 +1,8 @@
 import connection from "../db/database.js";
-import {aluguelSchema} from "../schemas/aluguelSchema.js";
 
 async function createAluguel(req, res) {
     const {customerId, gameId, daysRented} = req.body;
 
-    const validaAluguel = aluguelSchema.validate({customerId, gameId, daysRented},{abortEarly: false});
-
-    if(validaAluguel.error){
-        return res.status(400).send(validaAluguel.error.message);
-    }
 
     try {
       const clienteExistente = await connection.query(`SELECT id FROM customers WHERE id = $1`,[customerId]);

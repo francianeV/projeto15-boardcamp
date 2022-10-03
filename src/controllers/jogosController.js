@@ -1,5 +1,4 @@
 import connection from '../db/database.js';
-import {gamesSchema} from '../schemas/jogosSchema.js';
 
 async function getGames(req, res){
     const {name} = req.query;
@@ -30,13 +29,6 @@ async function getGames(req, res){
 
 async function createGame(req, res){
     const {name, image, stockTotal, categoryId, pricePerDay} = req.body;
-
-    const validaEntrada = gamesSchema.validate({name, image, stockTotal, categoryId, pricePerDay}, {abortEarly: false});
-
-    if(validaEntrada.error){
-        console.log(validaEntrada.error.message);
-        return res.sendStatus(400);
-    }
 
     try{
         const jogoExistente = await connection.query('SELECT * FROM games WHERE name = $1',[name])

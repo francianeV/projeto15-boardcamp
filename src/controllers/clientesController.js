@@ -1,5 +1,4 @@
 import connection from "../db/database.js";
-import {clienteSchema} from "../schemas/clientesSchema.js";
 
 async function getClientes(req, res){
     const {cpf} = req.query;
@@ -40,12 +39,6 @@ async function getCliente(req, res){
 async function createClient(req, res){
     const {name, phone, cpf, birthday} = req.body;
 
-    const validaCliente = clienteSchema.validate({name, phone, cpf, birthday},{abortEarly: false});
-
-    if(validaCliente.error){
-        return res.status(400).send(validaCliente.error.message);
-    }
-
     try{
 
         const cpfExistente = await connection.query('SELECT * FROM customers WHERE cpf = $1;',[cpf]);
@@ -66,12 +59,6 @@ async function createClient(req, res){
 async function atualizaCliente(req, res){
     const {id} = req.params;
     const {name, phone, cpf, birthday} = req.body;
-
-    const validaCliente = clienteSchema.validate({name, phone, cpf, birthday},{abortEarly: false});
-
-    if(validaCliente.error){
-        return res.status(400).send(validaCliente.error.message);
-    }
 
     try{
         const cliente = await connection.query('SELECT * FROM customers WHERE id = $1;',[id]);
